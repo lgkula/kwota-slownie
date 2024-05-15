@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compileTs": "npx ts-node kwotaSlownie1.ts"
+    "compileTs": "npx ts-node kwotaSlownie.ts"
   },
   "author": "",
   "license": "ISC",
