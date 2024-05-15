@@ -34,7 +34,7 @@ const amountInWords = (amountAsString: string): string => {
     " osiemnaście",
     " dziewiętnaście",
   ];
-  let ty = [
+  let dozens = [
     "",
     " dziesięć",
     " dwadzieścia",
@@ -75,51 +75,50 @@ const amountInWords = (amountAsString: string): string => {
   }
   if (amountAsNumber === 0) return "zero złotych";
 
-  const amountParts = splitFloatNumber(amountAsNumber);
+  const amountParts: number[] = splitFloatNumber(amountAsNumber);
   console.log('amountParts: ', amountParts);
 
-  let amountInWords = "";
-  let amountPartsInWords = [];
+  let amountPartsInWords: string[] = [];
   
-
-  // if (amountParts[1] === 0) {
-  //   amountInWords = "złotych";
-  // } else {
-  //   amountInWords = "złotych " + amountParts[1] + "/100";
-  // }
   amountParts.forEach((amountPart) => {
-    while (amountPart > 0) {
-      let g = 0;
-      let s = Math.floor((amountPart % 1000) / 100);
-      let n = 0;
-      let d = Math.floor((amountPart % 100) / 10);
-      let j = Math.floor(amountPart % 10);
+    if (amountPart === 0) {
+      amountPartsInWords.push('zero');
+    } else {
+    let amountInWords = "";
+    let g = 0;
+      while (amountPart > 0) {
+        let h = Math.floor((amountPart % 1000) / 100);
+        let t = 0;
+        let d = Math.floor((amountPart % 100) / 10);
+        let u = Math.floor(amountPart % 10);
 
-      if (d == 1 && j > 0) {
-        n = j;
-        d = 0;
-        j = 0;
+        if (d == 1 && u > 0) {
+          t = u;
+          d = 0;
+          u = 0;
+        }
+
+        let p = 2;
+        if (u == 1 && h + d + t == 0) p = 0;
+        if (u == 2 || u == 3 || u == 4) p = 1;
+        if (h + d + t + u > 0)
+          amountInWords =
+          hundreds[h] +
+            dozens[d] +
+            teen[t] +
+            unity[u] +
+            groups[g][p] +
+            amountInWords;
+
+        g++;
+        amountPart = Math.floor(amountPart / 1000);
       }
-
-      let k = 2;
-      if (j == 1 && s + d + n == 0) k = 0;
-      if (j == 2 || j == 3 || j == 4) k = 1;
-      if (s + d + n + j > 0)
-        amountInWords =
-          amountInWords +
-          hundreds[s] +
-          ty[d] +
-          teen[n] +
-          unity[j] +
-          groups[g][k] 
-
-      g++;
-      amountPart = Math.floor(amountPart / 1000);
+      amountPartsInWords.push(amountInWords);
     }
-  });
-
-  console.log(amountInWords);
-  return amountInWords;
+    });
+  console.log(amountPartsInWords);
+  return '';
 };
 
-amountInWords("1020340,45");
+amountInWords("0");
+// amountInWords("1020345");
